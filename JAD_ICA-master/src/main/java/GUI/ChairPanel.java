@@ -3,7 +3,10 @@ package GUI;
 //
 import Items.*;
 import Interfaces.NewItemInterface;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import Items.Armrests;
+import Items.WoodType;
 
 /**
  *
@@ -43,14 +46,14 @@ public class ChairPanel extends javax.swing.JPanel {
 
         chairTitle = new javax.swing.JLabel();
         woodTypeLabel = new javax.swing.JLabel();
-        woodTypeComboBox = new javax.swing.JComboBox<>();
+        woodTypeComboBox = new javax.swing.JComboBox();
         ArmrestsLabel = new javax.swing.JLabel();
-        armrestsComboBox = new javax.swing.JComboBox<>();
+        armrestsComboBox = new javax.swing.JComboBox();
         IDLabel = new javax.swing.JLabel();
-        idNumberTextField = new javax.swing.JTextField();
         quantityLabel = new javax.swing.JLabel();
         quantityTextField = new javax.swing.JTextField();
         addToBasketButton = new javax.swing.JButton();
+        idFormattedTextField = new javax.swing.JFormattedTextField();
 
         setBackground(new java.awt.Color(57, 124, 213));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -62,15 +65,15 @@ public class ChairPanel extends javax.swing.JPanel {
 
         woodTypeLabel.setText("Choose Wood Type");
 
-        woodTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Oak", "Walnut" }));
+        woodTypeComboBox.setModel(new DefaultComboBoxModel<>(WoodType.values())
+        );
+        woodTypeComboBox.setToolTipText("");
 
         ArmrestsLabel.setText("Add Armrests");
 
-        armrestsComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No", "Yes" }));
+        armrestsComboBox.setModel(new DefaultComboBoxModel<>(Armrests.values()));
 
         IDLabel.setText("Add ID Number");
-
-        idNumberTextField.setText("1");
 
         quantityLabel.setText("Choose Quantity");
 
@@ -83,6 +86,9 @@ public class ChairPanel extends javax.swing.JPanel {
             }
         });
 
+        idFormattedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        idFormattedTextField.setText("1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -93,35 +99,31 @@ public class ChairPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(idNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(idFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(addToBasketButton))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ArmrestsLabel)
-                                    .addComponent(armrestsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(41, 41, 41)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(quantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(60, 60, 60))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(39, 39, 39)
-                                        .addComponent(quantityLabel)
-                                        .addGap(0, 35, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(ArmrestsLabel)
+                                            .addComponent(armrestsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(72, 72, 72)
+                                                .addComponent(quantityLabel))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(102, 102, 102)
+                                                .addComponent(quantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                     .addComponent(chairTitle)
                                     .addComponent(woodTypeLabel))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 35, Short.MAX_VALUE)))
                         .addContainerGap(166, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(IDLabel)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(woodTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(IDLabel)
+                            .addComponent(woodTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,40 +149,43 @@ public class ChairPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addToBasketButton)
-                    .addComponent(idNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(209, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void addToBasketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToBasketButtonActionPerformed
         // TODO add your handling code here:
-        WoodType woodtype = WoodType.WALNUT;
-        Armrests armrests = Armrests.NO;
+
         int quantity = 1;
         int idNumber = 1;
+        
         try {
-            if (this.woodTypeComboBox.getSelectedItem() == "Oak") {
-                woodtype = WoodType.OAK;
-            }
-            if (this.armrestsComboBox.getSelectedItem() == "Yes") {
-                armrests = Armrests.YES;
-            }
+            Chair newChair = null;
+
             if (this.quantityTextField != null) {
                 quantity = Integer.parseInt(this.quantityTextField.getText());
             }
-            if (this.idNumberTextField != null) {
-                idNumber = Integer.parseInt(this.idNumberTextField.getText());
-
+            if (this.idFormattedTextField != null) {
+                if(Integer.valueOf(idFormattedTextField.getText())>0){
+                    idNumber = Integer.valueOf(idFormattedTextField.getText());
+                    newChair = new Chair((Armrests)armrestsComboBox.getSelectedItem()
+                            , (WoodType)woodTypeComboBox.getSelectedItem()
+                            , quantity, idNumber);
+                }
+                while (Integer.valueOf(idFormattedTextField.getText())<0){
+                    idFormattedTextField.setText(null);
+                }
             }
-            Chair newChair = new Chair(armrests, woodtype, quantity, idNumber);
+            
             
             if (chair == null){
                 this.newItemInterface.newItemToBasket(newChair);
             }else{
-                chair.setArms(armrests);
+                chair.setArms((Armrests)armrestsComboBox.getSelectedItem());
                 chair.setIdNumber(idNumber);
                 chair.setQuantity(quantity);
-                chair.setWood(woodtype);
+                chair.setWood((WoodType)woodTypeComboBox.getSelectedItem());
                 this.newItemInterface.editItem(chair);
                 JOptionPane.showMessageDialog(this, "Basket updated",
                     "Edit Complete",
@@ -194,6 +199,9 @@ public class ChairPanel extends javax.swing.JPanel {
             
         }
         //serializable lecture
+        //swing formattedtextfields
+        //numberformat
+        //fieldformat
     }//GEN-LAST:event_addToBasketButtonActionPerformed
 
 
@@ -201,12 +209,12 @@ public class ChairPanel extends javax.swing.JPanel {
     private javax.swing.JLabel ArmrestsLabel;
     private javax.swing.JLabel IDLabel;
     private javax.swing.JButton addToBasketButton;
-    private javax.swing.JComboBox<String> armrestsComboBox;
+    private javax.swing.JComboBox armrestsComboBox;
     private javax.swing.JLabel chairTitle;
-    private javax.swing.JTextField idNumberTextField;
+    private javax.swing.JFormattedTextField idFormattedTextField;
     private javax.swing.JLabel quantityLabel;
     private javax.swing.JTextField quantityTextField;
-    private javax.swing.JComboBox<String> woodTypeComboBox;
+    private javax.swing.JComboBox woodTypeComboBox;
     private javax.swing.JLabel woodTypeLabel;
     // End of variables declaration//GEN-END:variables
 }

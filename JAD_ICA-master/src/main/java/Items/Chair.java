@@ -35,10 +35,10 @@ public class Chair extends Furniture{
     @Override
     public String toString() {
         return "\nChair\nID:" + this.getIdNumber() 
-                + "\nArmrests: " + arms 
                 + "\nWood Type: " + wood
-                + "\nSub Price: " + this.calculatePrice() 
-                + "\nQuantity: " + quantity + "\n\n";
+                + "\nArmrests: " + arms 
+                + "\nQuantity: " + quantity + "\n\n"
+                + "\nPrice: £" + this.calculatePrice() ;
     }
     
 

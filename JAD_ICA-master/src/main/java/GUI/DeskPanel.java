@@ -3,6 +3,7 @@ package GUI;
 import Items.Desk;
 import Items.WoodType;
 import Interfaces.NewItemInterface;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -40,7 +41,7 @@ public class DeskPanel extends javax.swing.JPanel {
 
         deskTitle = new javax.swing.JLabel();
         woodTypeLabel = new javax.swing.JLabel();
-        woodTypeComboBox = new javax.swing.JComboBox<>();
+        woodTypeComboBox = new javax.swing.JComboBox();
         drawerLabel = new javax.swing.JLabel();
         widthLabel = new javax.swing.JLabel();
         widthTextField = new javax.swing.JTextField();
@@ -51,7 +52,7 @@ public class DeskPanel extends javax.swing.JPanel {
         quantityTextField = new javax.swing.JTextField();
         drawersComboBox = new javax.swing.JComboBox<>();
         IdNumberLabel = new javax.swing.JLabel();
-        idNumberTextField = new javax.swing.JTextField();
+        idFormattedTextField = new javax.swing.JFormattedTextField();
 
         setBackground(new java.awt.Color(57, 124, 213));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -62,17 +63,17 @@ public class DeskPanel extends javax.swing.JPanel {
 
         woodTypeLabel.setText("Choose Wood Type");
 
-        woodTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Oak", "Walnut" }));
+        woodTypeComboBox.setModel(new DefaultComboBoxModel<>(WoodType.values()));
 
         drawerLabel.setText("Enter The amount of Drawers");
 
         widthLabel.setText("Choose the Width");
 
-        widthTextField.setText("0");
+        widthTextField.setText("1");
 
         depthLabel.setText("Choose the Depth");
 
-        depthTextField.setText("0");
+        depthTextField.setText("1");
 
         quantityLabel.setText("Choose Quantity");
 
@@ -89,7 +90,8 @@ public class DeskPanel extends javax.swing.JPanel {
 
         IdNumberLabel.setText("Enter ID Number");
 
-        idNumberTextField.setText("1");
+        idFormattedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        idFormattedTextField.setText("1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -114,11 +116,12 @@ public class DeskPanel extends javax.swing.JPanel {
                             .addComponent(quantityLabel)
                             .addComponent(quantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(IdNumberLabel)
-                            .addComponent(idNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(idFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(depthLabel)
                     .addComponent(deskTitle)
-                    .addComponent(woodTypeLabel)
-                    .addComponent(woodTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(woodTypeComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(woodTypeLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(96, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -144,7 +147,7 @@ public class DeskPanel extends javax.swing.JPanel {
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(widthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(idNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addComponent(depthLabel)
                 .addGap(18, 18, 18)
@@ -157,14 +160,14 @@ public class DeskPanel extends javax.swing.JPanel {
 
     private void addToBasketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToBasketButtonActionPerformed
 
-        int drawers = 0;
-        double deskWidth = 0;
-        WoodType woodtype = WoodType.WALNUT;
-        double deskDepth = 0;
+        int drawers = 1;
+        double deskWidth = 1;
+        double deskDepth = 1;
         int quantity = 1;
-        int idNumber = 1;
+        int idNumber = 0;
 
         try {
+            Desk newDesk = null;
             if (this.drawersComboBox != null) {
                 drawers = Integer.parseInt(this.drawersComboBox.getSelectedItem().toString());
             }
@@ -174,16 +177,23 @@ public class DeskPanel extends javax.swing.JPanel {
             if (this.depthTextField != null) {
                 deskDepth = Double.parseDouble(this.depthTextField.getText());
             }
-            if (this.woodTypeComboBox.getSelectedItem() == "Oak") {
-                woodtype = WoodType.OAK;
-            }
+            
             if (this.quantityTextField != null) {
                 quantity = Integer.parseInt(this.quantityTextField.getText());
             }
-            if (this.idNumberTextField != null) {
-                idNumber = Integer.parseInt(this.idNumberTextField.getText());
+            if (this.idFormattedTextField != null) {
+                if(Integer.valueOf(idFormattedTextField.getText())>0){
+                    idNumber = Integer.valueOf(idFormattedTextField.getText());
+                    newDesk = new Desk(drawers, deskWidth, deskDepth, 
+                    (WoodType)woodTypeComboBox.getSelectedItem(), 
+                    quantity, idNumber);
+                    
+                }
+                while (Integer.valueOf(idFormattedTextField.getText())<0){
+                    idFormattedTextField.setText(null);
+                }
             }
-            Desk newDesk = new Desk(drawers, deskWidth, deskDepth, woodtype, quantity, idNumber);
+            
             
             if (desk == null){
                 this.newItemInterface.newItemToBasket(newDesk);
@@ -193,7 +203,7 @@ public class DeskPanel extends javax.swing.JPanel {
                 desk.setDrawers(drawers);
                 desk.setIdNumber(idNumber);
                 desk.setQuantity(quantity);
-                desk.setWood(woodtype);
+                desk.setWood((WoodType)woodTypeComboBox.getSelectedItem());
                 this.newItemInterface.editItem(desk);
                 JOptionPane.showMessageDialog(this, "Basket updated",
                     "Edit Complete",
@@ -216,12 +226,12 @@ public class DeskPanel extends javax.swing.JPanel {
     private javax.swing.JLabel deskTitle;
     private javax.swing.JLabel drawerLabel;
     private javax.swing.JComboBox<String> drawersComboBox;
-    private javax.swing.JTextField idNumberTextField;
+    private javax.swing.JFormattedTextField idFormattedTextField;
     private javax.swing.JLabel quantityLabel;
     private javax.swing.JTextField quantityTextField;
     private javax.swing.JLabel widthLabel;
     private javax.swing.JTextField widthTextField;
-    private javax.swing.JComboBox<String> woodTypeComboBox;
+    private javax.swing.JComboBox woodTypeComboBox;
     private javax.swing.JLabel woodTypeLabel;
     // End of variables declaration//GEN-END:variables
 }

@@ -72,7 +72,7 @@ public class Desk extends Furniture{
                 + "\nDesk Width: " + deskWidth 
                 + "\nDesk Depth: " + deskDepth
                 + "\nQuantity: " + quantity
-                + "\nPrice: " + calculatePrice() +"\n\n";
+                + "\nPrice: £" + calculatePrice() +"\n\n";
     }
         
     @Override

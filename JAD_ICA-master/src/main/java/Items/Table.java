@@ -50,10 +50,11 @@ public class Table extends Furniture{
     @Override
     public String toString(){
         return "\nTable\nID: " + this.getIdNumber() 
+                + "\nWood type: "+ wood
                 + "\nTable size: "+ diameter
                 + "\nBase type: " + base
-                + "\nWood tpye: "+ wood
-                + "\nWood Price: £" + calculatePrice() + "\n\n";
+                + "\nQuantity: " + quantity
+                + "\nPrice: £" + calculatePrice() + "\n\n";
     }   
     
     @Override

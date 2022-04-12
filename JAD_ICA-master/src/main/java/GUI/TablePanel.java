@@ -4,6 +4,7 @@ import Items.BaseType;
 import Items.Table;
 import Items.WoodType;
 import Interfaces.NewItemInterface;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,6 +25,7 @@ public class TablePanel extends javax.swing.JPanel {
         initComponents();
         this.newItemInterface = newItemInterface;
     }
+
     public TablePanel(NewItemInterface newItemInterface, Table table) {
         this(newItemInterface);
         this.table = table;
@@ -46,12 +48,12 @@ public class TablePanel extends javax.swing.JPanel {
         diameterLabel = new javax.swing.JLabel();
         diamaterTextField = new javax.swing.JTextField();
         IdNumberLabel = new javax.swing.JLabel();
-        idNumberTextField = new javax.swing.JTextField();
         quantityLabel = new javax.swing.JLabel();
         addToBasketButton = new javax.swing.JButton();
         quantityTextField = new javax.swing.JTextField();
-        woodTypeComboBox = new javax.swing.JComboBox<>();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        woodTypeComboBox = new javax.swing.JComboBox();
+        baseTypeComboBox = new javax.swing.JComboBox();
+        idFormattedTextField = new javax.swing.JFormattedTextField();
 
         setBackground(new java.awt.Color(57, 124, 213));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -66,11 +68,9 @@ public class TablePanel extends javax.swing.JPanel {
 
         diameterLabel.setText("Choose a Table Size");
 
-        diamaterTextField.setText("0");
+        diamaterTextField.setText("1");
 
         IdNumberLabel.setText("ID Number");
-
-        idNumberTextField.setText("1");
 
         quantityLabel.setText("Choose Quantity");
 
@@ -83,9 +83,12 @@ public class TablePanel extends javax.swing.JPanel {
 
         quantityTextField.setText("1");
 
-        woodTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Oak", "Walnut" }));
+        woodTypeComboBox.setModel(new DefaultComboBoxModel<>(WoodType.values()));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Wooden", "Chrome" }));
+        baseTypeComboBox.setModel(new DefaultComboBoxModel<>(BaseType.values()));
+
+        idFormattedTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        idFormattedTextField.setText("1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -111,14 +114,14 @@ public class TablePanel extends javax.swing.JPanel {
                                     .addGap(133, 133, 133)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(woodTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(woodTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(baseTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(quantityLabel)
                             .addComponent(IdNumberLabel)
-                            .addComponent(idNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(quantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(quantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(idFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(diameterLabel))
@@ -137,8 +140,8 @@ public class TablePanel extends javax.swing.JPanel {
                     .addComponent(IdNumberLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(idNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(woodTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(woodTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(baseTypeLabel)
@@ -146,7 +149,7 @@ public class TablePanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(quantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(baseTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(diameterLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -160,54 +163,50 @@ public class TablePanel extends javax.swing.JPanel {
     private void addToBasketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToBasketButtonActionPerformed
 
         double diameter = 1.0;
-        WoodType woodtype = WoodType.WALNUT;
-        BaseType basetype = BaseType.CHROME;
         int quantity = 1;
-        int idNumber = 1;
+        int idNumber = 0;
 
         try {
+            Table newTable = null;
+
             if (this.diamaterTextField != null) {
                 diameter = Double.parseDouble(this.diamaterTextField.getText());
             }
-
-            if (this.woodTypeComboBox.getSelectedItem() == "Oak") {
-                woodtype = WoodType.OAK;
-            }
-
-            if (this.woodTypeComboBox.getSelectedItem() == "Wooden") {
-                basetype = BaseType.WOODEN;
-            }
-
             if (this.quantityTextField != null) {
                 quantity = Integer.parseInt(this.quantityTextField.getText());
             }
-            if (this.idNumberTextField != null) {
-                idNumber = Integer.parseInt(this.idNumberTextField.getText());
+            if (this.idFormattedTextField != null) {
+                if (Integer.valueOf(idFormattedTextField.getText()) > 0) {
+                    idNumber = Integer.valueOf(idFormattedTextField.getText());
+                    newTable = new Table(diameter, 
+                            (WoodType)woodTypeComboBox.getSelectedItem(), 
+                            (BaseType)baseTypeComboBox.getSelectedItem(), 
+                            quantity, 
+                            idNumber);
+                }
+                while (Integer.valueOf(idFormattedTextField.getText()) < 0) {
+                    idFormattedTextField.setText(null);
+                }
+                
+                if (table == null) {
+                    this.newItemInterface.newItemToBasket(newTable);
+                } else {
+                    table.setBase((BaseType)baseTypeComboBox.getSelectedItem());
+                    table.setDiameter(diameter);
+                    table.setIdNumber(idNumber);
+                    table.setQuantity(quantity);
+                    table.setWood((WoodType)woodTypeComboBox.getSelectedItem());
+                    this.newItemInterface.editItem(table);
+                    JOptionPane.showMessageDialog(this, "Basket updated",
+                            "Edit Complete",
+                            JOptionPane.WARNING_MESSAGE);
+                    MainFrame.getInstance().clearDummy();
+                }
             }
-            Table newTable = new Table(diameter, woodtype, basetype, quantity, idNumber);
-            
-            if (table == null){
-                this.newItemInterface.newItemToBasket(newTable);
-            }else{
-                table.setBase(basetype);
-                table.setDiameter(diameter);
-                table.setIdNumber(idNumber);
-                table.setQuantity(quantity);
-                table.setWood(woodtype);
-                this.newItemInterface.editItem(table);
-                JOptionPane.showMessageDialog(this, "Basket updated",
-                    "Edit Complete",
-                    JOptionPane.WARNING_MESSAGE);
-                MainFrame.getInstance().clearDummy();
-            }
-           
-
-            
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "This is an invalid character",
                     "WARNING",
                     JOptionPane.WARNING_MESSAGE);
-
 
         }
     }//GEN-LAST:event_addToBasketButtonActionPerformed
@@ -216,15 +215,15 @@ public class TablePanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel IdNumberLabel;
     private javax.swing.JButton addToBasketButton;
+    private javax.swing.JComboBox baseTypeComboBox;
     private javax.swing.JLabel baseTypeLabel;
     private javax.swing.JTextField diamaterTextField;
     private javax.swing.JLabel diameterLabel;
-    private javax.swing.JTextField idNumberTextField;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JFormattedTextField idFormattedTextField;
     private javax.swing.JLabel quantityLabel;
     private javax.swing.JTextField quantityTextField;
     private javax.swing.JLabel tableTitle;
-    private javax.swing.JComboBox<String> woodTypeComboBox;
+    private javax.swing.JComboBox woodTypeComboBox;
     private javax.swing.JLabel woodTypeLabel;
     // End of variables declaration//GEN-END:variables
 }
