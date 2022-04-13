@@ -6,17 +6,13 @@ import Interfaces.SummaryInterface;
 import Items.Chair;
 import Items.Desk;
 import Items.Table;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JPanel;
 /**
  *
  * @author tomwi
  */
-public class MainFrame extends javax.swing.JFrame implements ItemInterface, BasketInterface, SummaryInterface{
+public class MainFrame extends javax.swing.JFrame implements ItemInterface, 
+        BasketInterface, SummaryInterface{
     
-    private final List<JPanel> forms = new ArrayList<>();
-    private SummaryInterface summaryListener;
     private static MainFrame instance;
     /**
      * Creates new form RoflFrame
@@ -34,7 +30,6 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface, Bask
         }
     }
     
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,8 +43,8 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface, Bask
         titlePanel1 = new GUI.TitlePanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(1, 0), new java.awt.Dimension(1, 0), new java.awt.Dimension(1, 32767));
         jPanel1 = new javax.swing.JPanel();
-        dummyPanel = new javax.swing.JPanel();
-        basketPanel1 = new GUI.BasketPanel();
+        interactionPanel = new javax.swing.JPanel();
+        basketPanel = new GUI.BasketPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ROFC Ordering System");
@@ -64,11 +59,11 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface, Bask
         jPanel1.setBackground(new java.awt.Color(102, 255, 102));
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        dummyPanel.setBackground(new java.awt.Color(57, 124, 213));
-        dummyPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        dummyPanel.setLayout(new java.awt.GridLayout(1, 0));
-        jPanel1.add(dummyPanel);
-        jPanel1.add(basketPanel1);
+        interactionPanel.setBackground(new java.awt.Color(57, 124, 213));
+        interactionPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        interactionPanel.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel1.add(interactionPanel);
+        jPanel1.add(basketPanel);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -78,16 +73,13 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface, Bask
 
     private void initListeners() {
         buttonPanel1.addItemlListener(this);
-        basketPanel1.addBasketListener(this);
-        buttonPanel1.addBasketListener(this.basketPanel1);
+        basketPanel.addBasketListener(this);
+        buttonPanel1.addBasketListener(this.basketPanel);
         buttonPanel1.addItemlListener(this);
-        buttonPanel1.addSummaryListener(this.basketPanel1);
-        basketPanel1.addSummaryListener(this);
-        
-        
+        buttonPanel1.addSummaryListener(this.basketPanel);
+        basketPanel.addSummaryListener(this);
+        buttonPanel1.setSerializeListener(this.basketPanel);
     }
-    
-    
     /**
      * @param args the command line arguments
      */
@@ -121,85 +113,79 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface, Bask
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private GUI.BasketPanel basketPanel1;
+    private GUI.BasketPanel basketPanel;
     private GUI.ButtonPanel buttonPanel1;
-    private javax.swing.JPanel dummyPanel;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.JPanel interactionPanel;
     private javax.swing.JPanel jPanel1;
     private GUI.TitlePanel titlePanel1;
     // End of variables declaration//GEN-END:variables
 
-
-    
-
     @Override
-    public void chairPanel() {
-        dummyPanel.removeAll();         
-        dummyPanel.add(new ChairPanel(basketPanel1));
-        dummyPanel.updateUI();
+    public void newChairPanel() {
+        interactionPanel.removeAll();         
+        interactionPanel.add(new ChairPanel(basketPanel));
+        interactionPanel.updateUI();
         
     }
     @Override
-    public void chairPanel(Chair chair) {
-        dummyPanel.removeAll();         
-        dummyPanel.add(new ChairPanel(basketPanel1, chair));
-        dummyPanel.updateUI();      
+    public void editChairPanel(Chair chair) {
+        interactionPanel.removeAll();         
+        interactionPanel.add(new ChairPanel(basketPanel, chair));
+        interactionPanel.updateUI();      
     }
     
     @Override
-    public void deskPanel() {
-        dummyPanel.removeAll();         
-        dummyPanel.add(new DeskPanel(basketPanel1));
-        dummyPanel.updateUI();
+    public void newDeskPanel() {
+        interactionPanel.removeAll();         
+        interactionPanel.add(new DeskPanel(basketPanel));
+        interactionPanel.updateUI();
         
     }
     
     @Override
-    public void deskPanel(Desk desk) {
-        dummyPanel.removeAll();         
-        dummyPanel.add(new DeskPanel(basketPanel1, desk));
-        dummyPanel.updateUI();
+    public void editDeskPanel(Desk desk) {
+        interactionPanel.removeAll();         
+        interactionPanel.add(new DeskPanel(basketPanel, desk));
+        interactionPanel.updateUI();
     }
     
     @Override
-    public void tablePanel() {
-        dummyPanel.removeAll();         
-        dummyPanel.add(new TablePanel(basketPanel1));
-        dummyPanel.updateUI();
-        
+    public void newTablePanel() {
+        interactionPanel.removeAll();         
+        interactionPanel.add(new TablePanel(basketPanel));
+        interactionPanel.updateUI();
     }
     
     @Override
-    public void tablePanel(Table table) {
-        dummyPanel.removeAll();         
-        dummyPanel.add(new TablePanel(basketPanel1, table));
-        dummyPanel.updateUI();
-        
+    public void editTablePanel(Table table) {
+        interactionPanel.removeAll();         
+        interactionPanel.add(new TablePanel(basketPanel, table));
+        interactionPanel.updateUI();
     }
     
     @Override
     public void summaryPanel(String summary){
-        dummyPanel.removeAll();
-        dummyPanel.add(new SummaryPanel(summary));
-        dummyPanel.updateUI();
+        interactionPanel.removeAll();
+        interactionPanel.add(new SummaryPanel(summary));
+        interactionPanel.updateUI();
     }
 
 
     @Override
     public void removeAllItemsFromBasket() {
-        basketPanel1.removeAll();
-        basketPanel1.add(new BasketPanel());
-        basketPanel1.updateUI();
+        basketPanel.removeAll();
+        basketPanel.add(new BasketPanel());
+        basketPanel.updateUI();
     }
 
     @Override
     public void totalPricePanel() {
-        dummyPanel.removeAll();
+        interactionPanel.removeAll();
         TotalPricePanel pricePanel = new TotalPricePanel();
-        pricePanel.setText("£" + String.valueOf(this.basketPanel1.totalPriceOfBasket()));
-        dummyPanel.add(pricePanel);
-        dummyPanel.updateUI();
-        
+        pricePanel.setText("£" + String.valueOf(this.basketPanel.totalPriceOfBasket()));
+        interactionPanel.add(pricePanel);
+        interactionPanel.updateUI();
     }
     
     @Override
@@ -208,15 +194,14 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface, Bask
     }
 
     @Override
-    public void removeItem() {
-        basketPanel1.removeAll();
-        basketPanel1.add(new BasketPanel());
-        basketPanel1.updateUI();
+    public void removeSingleItem() {
+        basketPanel.removeAll();
+        basketPanel.add(new BasketPanel());
+        basketPanel.updateUI();
     }
     
-    public void clearDummy(){
-        
-        dummyPanel.removeAll();
-        dummyPanel.updateUI();
+    public void clearInteractionPanel(){
+        interactionPanel.removeAll();
+        interactionPanel.updateUI();
     }
 }

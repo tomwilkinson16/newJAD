@@ -1,3 +1,4 @@
+GUI\ButtonPanel$7.class
 Interfaces\ItemInterface.class
 GUI\ButtonPanel$2.class
 Items\Furniture.class
@@ -9,6 +10,7 @@ Items\Chair.class
 GUI\DeskPanel.class
 GUI\ChairPanel.class
 GUI\ButtonPanel.class
+Interfaces\SerializationInterface.class
 GUI\ButtonPanel$1.class
 Items\Main.class
 GUI\ButtonPanel$6.class
@@ -26,6 +28,7 @@ GUI\BasketPanel.class
 Items\Orders.class
 Items\Table.class
 GUI\TotalPricePanel.class
+GUI\ButtonPanel$8.class
 GUI\DeskPanel$1.class
 Items\Armrests.class
 GUI\ButtonPanel$3.class

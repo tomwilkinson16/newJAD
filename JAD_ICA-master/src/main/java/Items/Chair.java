@@ -1,12 +1,13 @@
 package Items;
 
+import java.io.Serializable;
 import javax.swing.ImageIcon;
 
 /**
  *
  * @author tomwi
  */
-public class Chair extends Furniture{
+public class Chair extends Furniture implements Serializable{
     
     private Armrests arms;
     
@@ -37,8 +38,8 @@ public class Chair extends Furniture{
         return "\nChair\nID:" + this.getIdNumber() 
                 + "\nWood Type: " + wood
                 + "\nArmrests: " + arms 
-                + "\nQuantity: " + quantity + "\n\n"
-                + "\nPrice: £" + this.calculatePrice() ;
+                + "\nQuantity: " + quantity 
+                + "\nPrice: £" + this.calculatePrice() + "\n\n";
     }
     
 

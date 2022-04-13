@@ -88,7 +88,7 @@
         <Property name="rows" type="int" value="1"/>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="dummyPanel">
+        <Container class="javax.swing.JPanel" name="interactionPanel">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="d5" green="7c" red="39" type="rgb"/>
@@ -105,7 +105,7 @@
             <Property name="rows" type="int" value="1"/>
           </Layout>
         </Container>
-        <Component class="GUI.BasketPanel" name="basketPanel1">
+        <Component class="GUI.BasketPanel" name="basketPanel">
         </Component>
       </SubComponents>
     </Container>

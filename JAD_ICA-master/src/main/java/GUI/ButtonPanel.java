@@ -2,8 +2,9 @@ package GUI;
 
 import Interfaces.BasketInterface;
 import Interfaces.ItemInterface;
+import Interfaces.SerializationInterface;
 import Interfaces.SummaryInterface;
-
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -78,10 +79,20 @@ public class ButtonPanel extends javax.swing.JPanel{
         add(filler1);
 
         loadBasketButton.setText("Load Basket");
+        loadBasketButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadBasketButtonActionPerformed(evt);
+            }
+        });
         add(loadBasketButton);
         add(filler6);
 
         saveBasketButton.setText("Save Basket");
+        saveBasketButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveBasketButtonActionPerformed(evt);
+            }
+        });
         add(saveBasketButton);
         add(filler7);
 
@@ -115,22 +126,23 @@ public class ButtonPanel extends javax.swing.JPanel{
 
     private void addChairButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addChairButtonActionPerformed
         
-        itemListener.chairPanel();
+        itemListener.newChairPanel();
     }//GEN-LAST:event_addChairButtonActionPerformed
 
     private void addTableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTableButtonActionPerformed
         
-        itemListener.tablePanel();
+        itemListener.newTablePanel();
     }//GEN-LAST:event_addTableButtonActionPerformed
 
     private void addDeskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDeskButtonActionPerformed
 
-        itemListener.deskPanel();
+        itemListener.newDeskPanel();
     }//GEN-LAST:event_addDeskButtonActionPerformed
 
     private void showSummaryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showSummaryButtonActionPerformed
         
         summaryListener.showBasketSummary();
+        
     }//GEN-LAST:event_showSummaryButtonActionPerformed
 
     private void clearBasketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBasketButtonActionPerformed
@@ -142,6 +154,25 @@ public class ButtonPanel extends javax.swing.JPanel{
         
         itemListener.totalPricePanel();
     }//GEN-LAST:event_totalPriceButtonActionPerformed
+
+    private void loadBasketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadBasketButtonActionPerformed
+        
+        int choice = 0;
+        JFileChooser file = new JFileChooser();
+        choice = file.showOpenDialog(this);
+        if (choice == JFileChooser.APPROVE_OPTION){
+            serializeListener.loadBasket(file.getSelectedFile());            
+        }    
+    }//GEN-LAST:event_loadBasketButtonActionPerformed
+
+    private void saveBasketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBasketButtonActionPerformed
+        int choice = 0;
+        JFileChooser file = new JFileChooser();
+        choice = file.showSaveDialog(this);
+        if (choice == JFileChooser.APPROVE_OPTION){
+            serializeListener.saveBasket(file.getSelectedFile());
+        }
+    }//GEN-LAST:event_saveBasketButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -166,6 +197,7 @@ public class ButtonPanel extends javax.swing.JPanel{
     private ItemInterface itemListener;
     private BasketInterface basketListener;
     private SummaryInterface summaryListener;
+    private SerializationInterface serializeListener;
 
     
     
@@ -180,4 +212,8 @@ public class ButtonPanel extends javax.swing.JPanel{
     public void addSummaryListener(SummaryInterface listener) {
         this.summaryListener = listener;
     }    
+    
+    public void setSerializeListener(SerializationInterface listener){
+        this.serializeListener = listener;
+    }
 }

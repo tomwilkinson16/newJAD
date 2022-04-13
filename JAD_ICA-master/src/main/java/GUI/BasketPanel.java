@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import Interfaces.NewItemInterface;
+import Interfaces.SerializationInterface;
 import Interfaces.SummaryInterface;
 import Items.Chair;
 import Items.Desk;
@@ -17,12 +18,23 @@ import static java.awt.event.MouseEvent.BUTTON1;
 import static java.awt.event.MouseEvent.BUTTON2;
 import static java.awt.event.MouseEvent.BUTTON3;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
  * @author tomwi
  */
-public class BasketPanel extends javax.swing.JPanel implements NewItemInterface, BasketInterface, SummaryInterface, MouseListener {
+public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
+        BasketInterface, SummaryInterface, MouseListener, SerializationInterface {
 
     Orders order = new Orders();
 
@@ -34,6 +46,8 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
     public BasketPanel() {
         initComponents();
 
+       
+        
         buttons.add(basketButton1);
         basketButton1.addMouseListener(BasketPanel.this);
         buttons.add(basketButton2);
@@ -114,7 +128,7 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
     }
 
     @Override
-    public void newItemToBasket(Furniture furn) {
+    public void addNewItemToBasket(Furniture furn) {
 
         if (order.productsSize() < MAX_BASKET) {
             order.addProduct(furn);
@@ -138,13 +152,61 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
     }
 
     @Override
-    public void removeItem() {
-        this.basketListener.removeItem();
+    public void removeSingleItem() {
+        this.basketListener.removeSingleItem();
     }
 
     @Override
     public void showBasketSummary() {
         System.out.println(order.summary());
+    }
+    
+    
+    @Override
+    public void loadBasket(File file) {
+        this.removeAllItemsFromBasket();
+        try {
+            FileInputStream in = new FileInputStream(file);
+            ObjectInputStream obin = new ObjectInputStream(in);
+            order = (Orders)obin.readObject();
+            obin.close();
+            in.close();
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(BasketPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(BasketPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        System.out.println("load successful");
+        for (int i = 0; i <order.productsSize(); i++){
+            if (order.productsSize() < MAX_BASKET) {
+            this.buttons.get(i).setIcon(order.getItem(i).getImage());
+            
+            
+            System.out.println("display items");
+            }
+        }
+        updateUI();
+    }
+
+    @Override
+    public void saveBasket(File file) {
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            ObjectOutputStream obout = new ObjectOutputStream(out);
+            obout.writeObject(order);
+            obout.close();
+            out.close();
+            JOptionPane.showMessageDialog(this, "Basket Saved", "Save", JOptionPane.PLAIN_MESSAGE);
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(BasketPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(BasketPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     @Override
@@ -156,7 +218,8 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
                 try {
                 for (int i = 0; i < buttons.size(); i++) {
                     if (e.getSource() == buttons.get(i)) {
-                        summaryListener.summaryPanel(order.getItem(i).toString());
+                        summaryListener.summaryPanel(order.getItem(i).
+                                toString());
                     }
                 }
             } catch (IndexOutOfBoundsException evt) {
@@ -168,56 +231,55 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
             break;
             case BUTTON2:
 
-                try{
+                try {
                     for (int i = 0; i < buttons.size(); i++) {
-                    if (e.getSource() == buttons.get(i)) {
-                        order.getItem(i);
-                        
-                        if (order.getItem(i) instanceof Chair){
-                            MainFrame.getInstance().chairPanel((Chair)(order.getItem(i)));
-                            updateUI();
-                        }
-                        if (order.getItem(i) instanceof Desk){
-                            MainFrame.getInstance().deskPanel((Desk)(order.getItem(i)));
-                            updateUI();
-                        }
-                        if (order.getItem(i) instanceof Table){
-                            MainFrame.getInstance().tablePanel((Table)(order.getItem(i)));
-                            updateUI();
-                        }
-                        
-                    }
-                }
-                }catch(IndexOutOfBoundsException evt){
-                     JOptionPane.showMessageDialog(this, "This space is empty, "
-                        + "nothing to delete", "WARNING",
-                        JOptionPane.WARNING_MESSAGE);
-                            
-                            }
-                break;
-            case BUTTON3:
-                try{
-                    for (int i = 0; i < buttons.size(); i++) {
-                    if (e.getSource() == buttons.get(i)) {
-                        order.removeItem(i);
-                        for (JButton button : buttons) {
-                                button.setIcon(null);   
-                        }for (int j = 0; j <order.productsSize(); j++){
-                            buttons.get(j).setIcon(order.getItem(j).getImage());
-                           
-                            
-                        }
-                    }
-                }
-                }catch(IndexOutOfBoundsException evt){
-                    JOptionPane.showMessageDialog(this, "This space is empty, "
-                        + "nothing to delete", "WARNING",
-                        JOptionPane.WARNING_MESSAGE);
-                    
-                    
-                }
-                break;
+                        if (e.getSource() == buttons.get(i)) {
+                            order.getItem(i);
 
+                            if (order.getItem(i) instanceof Chair) {
+                                MainFrame.getInstance().editChairPanel((Chair) 
+                                        (order.getItem(i)));
+                                updateUI();
+                            }
+                            if (order.getItem(i) instanceof Desk) {
+                                MainFrame.getInstance().editDeskPanel((Desk) 
+                                        (order.getItem(i)));
+                                updateUI();
+                            }
+                            if (order.getItem(i) instanceof Table) {
+                                MainFrame.getInstance().editTablePanel((Table) 
+                                        (order.getItem(i)));
+                                updateUI();
+                            }
+                        }
+                    }
+                }catch (IndexOutOfBoundsException evt) {
+                    JOptionPane.showMessageDialog(this, "This space is empty, "
+                            + "nothing to delete", "WARNING",
+                            JOptionPane.WARNING_MESSAGE);
+
+            }
+            break;
+            case BUTTON3:
+                try {
+                    for (int i = 0; i < buttons.size(); i++) {
+                        if (e.getSource() == buttons.get(i)) {
+                            order.removeItem(i);
+                            for (JButton button : buttons) {
+                                button.setIcon(null);
+                            }
+                            for (int j = 0; j < order.productsSize(); j++) {
+                                buttons.get(j).setIcon(order.getItem(j).
+                                        getImage());
+                            }
+                        }
+                    }
+                }catch (IndexOutOfBoundsException evt) {
+                    JOptionPane.showMessageDialog(this, "This space is empty, "
+                            + "nothing to delete", "WARNING",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            break;
         }
     }
 
@@ -244,7 +306,8 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
     }
 
     @Override
-    public void editItem(Furniture furn) {
-        updateUI();        
+    public void editSingleItem(Furniture furn) {
+        updateUI();
     }
+
 }

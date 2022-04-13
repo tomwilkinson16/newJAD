@@ -1,13 +1,18 @@
 package Items;
 
+import java.io.Serializable;
 import java.io.File;
 import javax.swing.ImageIcon;
 
-/**
+/**Data class for Desk.
+ * 
+ * This class holds all data for creating a new desk including Override methods
+ * from the Su 
+ * 
  *
  * @author tomwi
  */
-public class Desk extends Furniture{
+public class Desk extends Furniture implements Serializable{
     private int drawers;
     private final int deskHeight = 80;
     private double deskWidth;

@@ -9,8 +9,8 @@ import Items.Furniture;
  */
 public interface NewItemInterface {
     
-    void newItemToBasket(Furniture furn);
-    void editItem(Furniture furn);
+    void addNewItemToBasket(Furniture furn);
+    void editSingleItem(Furniture furn);
     int MAX_BASKET = 9;
     
 }

@@ -189,18 +189,18 @@ public class TablePanel extends javax.swing.JPanel {
                 }
                 
                 if (table == null) {
-                    this.newItemInterface.newItemToBasket(newTable);
+                    this.newItemInterface.addNewItemToBasket(newTable);
                 } else {
                     table.setBase((BaseType)baseTypeComboBox.getSelectedItem());
                     table.setDiameter(diameter);
                     table.setIdNumber(idNumber);
                     table.setQuantity(quantity);
                     table.setWood((WoodType)woodTypeComboBox.getSelectedItem());
-                    this.newItemInterface.editItem(table);
+                    this.newItemInterface.editSingleItem(table);
                     JOptionPane.showMessageDialog(this, "Basket updated",
                             "Edit Complete",
                             JOptionPane.WARNING_MESSAGE);
-                    MainFrame.getInstance().clearDummy();
+                    MainFrame.getInstance().clearInteractionPanel();
                 }
             }
         } catch (NumberFormatException e) {

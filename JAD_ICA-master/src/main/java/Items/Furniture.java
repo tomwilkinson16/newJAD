@@ -1,6 +1,7 @@
 package Items;
 
 import java.awt.Image;
+import java.io.Serializable;
 import javax.swing.ImageIcon;
 
 
@@ -8,7 +9,7 @@ import javax.swing.ImageIcon;
  *
  * @author tomwi
  */
-public abstract class Furniture {
+public abstract class Furniture implements Serializable{
      
     protected int idNumber = 0;
     protected WoodType wood;

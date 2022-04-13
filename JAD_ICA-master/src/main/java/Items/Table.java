@@ -2,12 +2,13 @@ package Items;
 
 import java.io.File;
 import javax.swing.ImageIcon;
+import java.io.Serializable;
 
 /**
  *
  * @author tomwi
  */
-public class Table extends Furniture{
+public class Table extends Furniture implements Serializable{
     private BaseType base;
     double diameter;
    

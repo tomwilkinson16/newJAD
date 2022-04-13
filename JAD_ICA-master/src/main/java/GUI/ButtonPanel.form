@@ -123,6 +123,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Load Basket"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loadBasketButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.Box$Filler" name="filler6">
       <Properties>
@@ -144,6 +147,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Save Basket"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveBasketButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.Box$Filler" name="filler7">
       <Properties>

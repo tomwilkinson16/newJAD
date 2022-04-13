@@ -7,12 +7,13 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import Items.Armrests;
 import Items.WoodType;
+import java.io.Serializable;
 
 /**
  *
  * @author tomwi
  */
-public class ChairPanel extends javax.swing.JPanel {
+public class ChairPanel extends javax.swing.JPanel implements Serializable{
 
     private final NewItemInterface newItemInterface;
     private Chair chair;
@@ -156,7 +157,6 @@ public class ChairPanel extends javax.swing.JPanel {
 
     private void addToBasketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToBasketButtonActionPerformed
         // TODO add your handling code here:
-
         int quantity = 1;
         int idNumber = 1;
         
@@ -180,17 +180,17 @@ public class ChairPanel extends javax.swing.JPanel {
             
             
             if (chair == null){
-                this.newItemInterface.newItemToBasket(newChair);
+                this.newItemInterface.addNewItemToBasket(newChair);
             }else{
                 chair.setArms((Armrests)armrestsComboBox.getSelectedItem());
                 chair.setIdNumber(idNumber);
                 chair.setQuantity(quantity);
                 chair.setWood((WoodType)woodTypeComboBox.getSelectedItem());
-                this.newItemInterface.editItem(chair);
+                this.newItemInterface.editSingleItem(chair);
                 JOptionPane.showMessageDialog(this, "Basket updated",
                     "Edit Complete",
                     JOptionPane.WARNING_MESSAGE);
-                MainFrame.getInstance().clearDummy();
+                MainFrame.getInstance().clearInteractionPanel();
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "This is an invalid character",

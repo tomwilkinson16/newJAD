@@ -196,7 +196,7 @@ public class DeskPanel extends javax.swing.JPanel {
             
             
             if (desk == null){
-                this.newItemInterface.newItemToBasket(newDesk);
+                this.newItemInterface.addNewItemToBasket(newDesk);
             }else{
                 desk.setDeskDepth(deskDepth);
                 desk.setDeskWidth(deskWidth);
@@ -204,11 +204,11 @@ public class DeskPanel extends javax.swing.JPanel {
                 desk.setIdNumber(idNumber);
                 desk.setQuantity(quantity);
                 desk.setWood((WoodType)woodTypeComboBox.getSelectedItem());
-                this.newItemInterface.editItem(desk);
+                this.newItemInterface.editSingleItem(desk);
                 JOptionPane.showMessageDialog(this, "Basket updated",
                     "Edit Complete",
                     JOptionPane.WARNING_MESSAGE);
-                MainFrame.getInstance().clearDummy();
+                MainFrame.getInstance().clearInteractionPanel();
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "This is an invalid character",

@@ -1,6 +1,7 @@
 package Interfaces;
 
-import Items.Furniture;
+import java.io.File;
+
 
 /**
  *
@@ -9,5 +10,6 @@ import Items.Furniture;
 public interface BasketInterface {
     
     void removeAllItemsFromBasket();
-    void removeItem();
+    void removeSingleItem();
+
 }

@@ -1,13 +1,14 @@
 package Items;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author tomwi
  */
-public class Orders {
-    private final ArrayList<Furniture> products = new ArrayList();
+public class Orders implements Serializable{
+    private ArrayList<Furniture> products = new ArrayList();
 
     
     public Orders(){
