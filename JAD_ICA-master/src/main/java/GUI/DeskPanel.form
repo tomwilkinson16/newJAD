@@ -40,24 +40,30 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="drawerLabel" min="-2" max="-2" attributes="0"/>
-                          <Component id="widthLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="widthTextField" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="depthTextField" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
                           <Component id="drawersComboBox" alignment="0" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="widthTextField" alignment="0" max="32767" attributes="0"/>
+                              <Component id="widthLabel" alignment="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="quantityLabel" min="-2" max="-2" attributes="0"/>
-                          <Component id="quantityTextField" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="IdNumberLabel" min="-2" max="-2" attributes="0"/>
-                          <Component id="idFormattedTextField" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="quantityLabel" max="32767" attributes="0"/>
+                          <Component id="quantityTextField" alignment="0" max="32767" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="idFormattedTextField" alignment="0" max="32767" attributes="0"/>
+                              <Component id="IdNumberLabel" alignment="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
-                  <Component id="depthLabel" min="-2" max="-2" attributes="0"/>
                   <Component id="deskTitle" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                       <Component id="woodTypeComboBox" alignment="0" max="32767" attributes="0"/>
                       <Component id="woodTypeLabel" alignment="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="depthTextField" alignment="0" max="32767" attributes="0"/>
+                      <Component id="depthLabel" alignment="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="96" max="32767" attributes="0"/>

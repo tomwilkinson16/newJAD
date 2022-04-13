@@ -178,14 +178,9 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
             Logger.getLogger(BasketPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        
-        System.out.println("load successful");
         for (int i = 0; i <order.productsSize(); i++){
             if (order.productsSize() < MAX_BASKET) {
             this.buttons.get(i).setIcon(order.getItem(i).getImage());
-            
-            
-            System.out.println("display items");
             }
         }
         updateUI();
