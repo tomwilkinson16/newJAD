@@ -20,14 +20,12 @@ import static java.awt.event.MouseEvent.BUTTON3;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  *
@@ -46,8 +44,6 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
     public BasketPanel() {
         initComponents();
 
-       
-        
         buttons.add(basketButton1);
         basketButton1.addMouseListener(BasketPanel.this);
         buttons.add(basketButton2);
@@ -160,52 +156,64 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
     public void showBasketSummary() {
         System.out.println(order.summary());
     }
-    
-    
+
     @Override
     public void loadBasket(File file) {
         this.removeAllItemsFromBasket();
         try {
-            FileInputStream in = new FileInputStream(file);
-            ObjectInputStream obin = new ObjectInputStream(in);
-            order = (Orders)obin.readObject();
-            obin.close();
-            in.close();
+            try (FileInputStream in = new FileInputStream(file);
+                    ObjectInputStream obin = new ObjectInputStream(in)) {
+                order = (Orders) obin.readObject();
+                obin.close();
+                in.close();
+            }
             
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(BasketPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(BasketPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            Logger.getLogger(BasketPanel.class.getName()).log(Level.SEVERE, null, e);
         }
-        
-        for (int i = 0; i <order.productsSize(); i++){
+
+        for (int i = 0; i < order.productsSize(); i++) {
             if (order.productsSize() < MAX_BASKET) {
-            this.buttons.get(i).setIcon(order.getItem(i).getImage());
+                this.buttons.get(i).setIcon(order.getItem(i).getImage());
             }
         }
         updateUI();
+     
     }
 
     @Override
     public void saveBasket(File file) {
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            ObjectOutputStream obout = new ObjectOutputStream(out);
-            obout.writeObject(order);
-            obout.close();
-            out.close();
-            JOptionPane.showMessageDialog(this, "Basket Saved", "Save", JOptionPane.PLAIN_MESSAGE);
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(BasketPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(BasketPanel.class.getName()).log(Level.SEVERE, null, ex);
+
+        if (order.productsSize() == 0) {
+            JOptionPane.showMessageDialog(null, "The file cannot be saved, the basket is empty!");
+
+        } else {
+            if (file.getName().contains(".dat")) {
+                try {
+
+                    FileOutputStream out = new FileOutputStream(file);
+                    ObjectOutputStream obout = new ObjectOutputStream(out);
+                    obout.writeObject(order);
+                    obout.close();
+                    out.close();
+                    JOptionPane.showMessageDialog(this, "Basket Saved", "Save", JOptionPane.PLAIN_MESSAGE);
+
+                } catch (Exception e) {
+                    Logger.getLogger(BasketPanel.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "The file cannot be saved, please add the extension!");
+
+            }
         }
-        
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
+    
+
+
+
+@Override
+        public void mouseClicked(MouseEvent e) {
 
         switch (e.getButton()) {
             case BUTTON1:
@@ -279,29 +287,29 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+        public void mousePressed(MouseEvent e) {
 
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+        public void mouseReleased(MouseEvent e) {
 
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
+        public void mouseEntered(MouseEvent e) {
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
+        public void mouseExited(MouseEvent e) {
     }
 
     @Override
-    public void summaryPanel(String summary) {
+        public void summaryPanel(String summary) {
     }
 
     @Override
-    public void editSingleItem(Furniture furn) {
+        public void editSingleItem(Furniture furn) {
         updateUI();
     }
 
