@@ -21,13 +21,14 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
+ * Basket Panel using Observer Patterns to display/load and save items. This
+ * class displays all items that have been added to the basket through the new
+ * item interface. Using the Java library for mouse events, i can then talk to
+ * each panel to edit the state of the basket.
  *
  * @author tomwi
  */
@@ -39,7 +40,8 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
     List<JButton> buttons = new ArrayList<>();
 
     /**
-     * Creates new form BasketPanel
+     * Updates and adds buttons to the panel and adds MouseListeners to ensure
+     * that the state can be changed
      */
     public BasketPanel() {
         initComponents();
@@ -143,10 +145,6 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
         }
     }
 
-    public double totalPriceOfBasket() {
-        return this.order.getTotalPrice();
-    }
-
     @Override
     public void removeSingleItem() {
         this.basketListener.removeSingleItem();
@@ -167,9 +165,9 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
                 obin.close();
                 in.close();
             }
-            
+
         } catch (Exception e) {
-            Logger.getLogger(BasketPanel.class.getName()).log(Level.SEVERE, null, e);
+
         }
 
         for (int i = 0; i < order.productsSize(); i++) {
@@ -178,7 +176,7 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
             }
         }
         updateUI();
-     
+
     }
 
     @Override
@@ -199,21 +197,20 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
                     JOptionPane.showMessageDialog(this, "Basket Saved", "Save", JOptionPane.PLAIN_MESSAGE);
 
                 } catch (Exception e) {
-                    Logger.getLogger(BasketPanel.class.getName()).log(Level.SEVERE, null, e);
                 }
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "The file cannot be saved, please add the extension!");
 
             }
         }
     }
 
-    
+    public double totalPriceOfBasket() {
+        return this.order.getTotalPrice();
+    }
 
-
-
-@Override
-        public void mouseClicked(MouseEvent e) {
+    @Override
+    public void mouseClicked(MouseEvent e) {
 
         switch (e.getButton()) {
             case BUTTON1:
@@ -225,7 +222,7 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
                                 toString());
                     }
                 }
-            } catch (IndexOutOfBoundsException evt) {
+            } catch (Exception evt) {
 
                 JOptionPane.showMessageDialog(this, "This space is empty, "
                         + "nothing to display", "WARNING",
@@ -235,81 +232,78 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
             case BUTTON2:
 
                 try {
-                    for (int i = 0; i < buttons.size(); i++) {
-                        if (e.getSource() == buttons.get(i)) {
-                            order.getItem(i);
+                for (int i = 0; i < buttons.size(); i++) {
+                    if (e.getSource() == buttons.get(i)) {
+                        order.getItem(i);
 
-                            if (order.getItem(i) instanceof Chair) {
-                                MainFrame.getInstance().editChairPanel((Chair) 
-                                        (order.getItem(i)));
-                                updateUI();
-                            }
-                            if (order.getItem(i) instanceof Desk) {
-                                MainFrame.getInstance().editDeskPanel((Desk) 
-                                        (order.getItem(i)));
-                                updateUI();
-                            }
-                            if (order.getItem(i) instanceof Table) {
-                                MainFrame.getInstance().editTablePanel((Table) 
-                                        (order.getItem(i)));
-                                updateUI();
-                            }
+                        if (order.getItem(i) instanceof Chair) {
+                            MainFrame.getInstance().editChairPanel((Chair) (order.getItem(i)));
+                            updateUI();
+                        }
+                        if (order.getItem(i) instanceof Desk) {
+                            MainFrame.getInstance().editDeskPanel((Desk) (order.getItem(i)));
+                            updateUI();
+                        }
+                        if (order.getItem(i) instanceof Table) {
+                            MainFrame.getInstance().editTablePanel((Table) (order.getItem(i)));
+                            updateUI();
                         }
                     }
-                }catch (IndexOutOfBoundsException evt) {
-                    JOptionPane.showMessageDialog(this, "This space is empty, "
-                            + "nothing to delete", "WARNING",
-                            JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (Exception evt) {
+                JOptionPane.showMessageDialog(this, "This space is empty, "
+                        + "nothing to delete", "WARNING",
+                        JOptionPane.WARNING_MESSAGE);
 
             }
             break;
             case BUTTON3:
                 try {
-                    for (int i = 0; i < buttons.size(); i++) {
-                        if (e.getSource() == buttons.get(i)) {
-                            order.removeItem(i);
-                            for (JButton button : buttons) {
-                                button.setIcon(null);
-                            }
-                            for (int j = 0; j < order.productsSize(); j++) {
-                                buttons.get(j).setIcon(order.getItem(j).
-                                        getImage());
-                            }
+                for (int i = 0; i < buttons.size(); i++) {
+                    if (e.getSource() == buttons.get(i)) {
+                        order.removeItem(i);
+                        for (JButton button : buttons) {
+                            button.setIcon(null);
+                        }
+                        for (int j = 0; j < order.productsSize(); j++) {
+                            buttons.get(j).setIcon(order.getItem(j).
+                                    getImage());
                         }
                     }
-                }catch (IndexOutOfBoundsException evt) {
-                    JOptionPane.showMessageDialog(this, "This space is empty, "
-                            + "nothing to delete", "WARNING",
-                            JOptionPane.WARNING_MESSAGE);
                 }
+            } catch (Exception evt) {
+                JOptionPane.showMessageDialog(this, "This space is empty, "
+                        + "nothing to delete", "WARNING",
+                        JOptionPane.WARNING_MESSAGE);
+            }
             break;
         }
     }
 
     @Override
-        public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
 
     }
 
     @Override
-        public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(MouseEvent e) {
 
     }
 
     @Override
-        public void mouseEntered(MouseEvent e) {
+    public void mouseEntered(MouseEvent e) {
     }
 
     @Override
-        public void mouseExited(MouseEvent e) {
+    public void mouseExited(MouseEvent e) {
     }
 
     @Override
-        public void summaryPanel(String summary) {
+    public void summaryPanel(String summary) {
     }
 
     @Override
-        public void editSingleItem(Furniture furn) {
+    public void editSingleItem(Furniture furn) {
         updateUI();
     }
 

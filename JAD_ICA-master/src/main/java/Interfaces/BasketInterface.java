@@ -1,8 +1,4 @@
 package Interfaces;
-
-import java.io.File;
-
-
 /**
  *
  * @author tomwi
