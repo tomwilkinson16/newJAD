@@ -9,7 +9,9 @@ import Items.Armrests;
 import Items.WoodType;
 import java.io.Serializable;
 
-/**
+/**This class is the implementation of the data which is stored in the Items
+ * package, it has two constructors which decide what state the object is in
+ * (new object or an edit).
  *
  * @author tomwi
  */
@@ -19,7 +21,7 @@ public class ChairPanel extends javax.swing.JPanel implements Serializable{
     private Chair chair;
 
     /**
-     * Creates new form orderItemPanel
+     * Creates new form orderItemPanel if the object is a new object.
      *
      * @param newItemInterface
      */
@@ -29,6 +31,11 @@ public class ChairPanel extends javax.swing.JPanel implements Serializable{
         
     }
 
+    /**Creates new form orderItemPanel if the object is an edit of an object.
+     *
+     * @param newItemInterface
+     * @param chair
+     */
     public ChairPanel(NewItemInterface newItemInterface, Chair chair) {
         this(newItemInterface);
         this.chair = chair;
@@ -150,8 +157,14 @@ public class ChairPanel extends javax.swing.JPanel implements Serializable{
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    /**This method takes all data that is entered for either a new item or an
+     * edited item and creates the object once the addToBasketButton is pressed.
+     * 
+     *   
+     */
     private void addToBasketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToBasketButtonActionPerformed
-        // TODO add your handling code here:
+        
         int quantity = 1;
         int idNumber = 1;
         
@@ -160,19 +173,16 @@ public class ChairPanel extends javax.swing.JPanel implements Serializable{
 
             if (this.quantityTextField != null) {
                 quantity = Integer.parseInt(this.quantityTextField.getText());
-            }
-            if (this.idFormattedTextField != null) {
+            }if (this.idFormattedTextField != null) {
                 if(Integer.valueOf(idFormattedTextField.getText())>0){
                     idNumber = Integer.valueOf(idFormattedTextField.getText());
                     newChair = new Chair((Armrests)armrestsComboBox.getSelectedItem()
                             , (WoodType)woodTypeComboBox.getSelectedItem()
                             , quantity, idNumber);
-                }
-                while (Integer.valueOf(idFormattedTextField.getText())<0){
+                }while (Integer.valueOf(idFormattedTextField.getText())<0){
                     idFormattedTextField.setText(null);
                 }
             }
-            
             
             if (chair == null){
                 this.newItemInterface.addNewItemToBasket(newChair);
@@ -187,16 +197,11 @@ public class ChairPanel extends javax.swing.JPanel implements Serializable{
                     JOptionPane.WARNING_MESSAGE);
                 MainFrame.getInstance().clearInteractionPanel();
             }
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "This is an invalid character",
                     "WARNING",
                     JOptionPane.WARNING_MESSAGE);
-            
         }
-        //serializable lecture
-        //swing formattedtextfields
-        //numberformat
-        //fieldformat
     }//GEN-LAST:event_addToBasketButtonActionPerformed
 
 
