@@ -25,9 +25,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * Basket Panel using Observer Patterns to display/load and save items. This
- * class displays all items that have been added to the basket through the new
- * item interface. Using the Java library for mouse events, i can then talk to
+ * Basket Panel using Observer Patterns to display/load and save items,this class
+ * displays all items that have been added to the basket through the new
+ * item interface, using the Java library for mouse events, i can then talk to
  * each panel to edit the state of the basket.
  *
  * @author tomwi
@@ -40,8 +40,10 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
     List<JButton> buttons = new ArrayList<>();
 
     /**
+     * 
      * Updates and adds buttons to the panel and adds MouseListeners to ensure
-     * that the state can be changed
+     * that the state can be changed, the initComponents calls all generated
+     * code and builds the GUI.
      */
     public BasketPanel() {
         initComponents();
@@ -117,14 +119,34 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
     private BasketInterface basketListener;
     private SummaryInterface summaryListener;
 
+    /**addBasketListener is an import of the BasketInterface and this ensures
+     * that the observer pattern works correctly.
+     *
+     * @param listener
+     */
     public void addBasketListener(BasketInterface listener) {
         this.basketListener = listener;
     }
 
+    /**addSummaryListener is an import of the SummaryInterface and this ensures
+     * that the observer pattern works correctly.
+     *
+     * @param summaryListener
+     */
     public void addSummaryListener(SummaryInterface summaryListener) {
         this.summaryListener = summaryListener;
     }
 
+    /**addNewItemToBasket takes in the Furniture object and adds the new item
+     * to the basket.
+     * The If statement grabs the order index size and sets the image inside 
+     * depending on if the basket has space. If it has space, it adds the item
+     * to the basket and if it does not have space, it will display a message
+     * stating that the basket is full inside a JOptionPane with a warning
+     * message.
+     * 
+     * @param furn
+     */
     @Override
     public void addNewItemToBasket(Furniture furn) {
 
@@ -137,6 +159,13 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
         }
     }
 
+    
+    
+    /**The removeAllItemsFromBasket method removes all the items from the basket
+     * once the button has been pressed, it then sets all the image icons to null
+     * to avoid the images being displayed once the basket is clear.
+     *
+     */
     @Override
     public void removeAllItemsFromBasket() {
         this.order.removeAllItems();
@@ -145,25 +174,74 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
         }
     }
 
+    
+    
+    /**This method follows a similar process to the removing all items from the
+     * basket but includes the basketListener method from the basketInterface.
+     *
+     */
     @Override
     public void removeSingleItem() {
         this.basketListener.removeSingleItem();
     }
-
+    
+    
+    
+    /**This method is used to edit singular items in the basket using singletons,
+     * it creates a second instance of furniture and edits the state and saves
+     * changes to the basket, the updateUI method makes sure that the method
+     * updates correctly and the original panel state is returned after changes.
+     *
+     * @param furn
+     */
+    @Override
+    public void editSingleItem(Furniture furn) {
+        updateUI();
+    }
+    
+    
+    
+    /**This method displays all current items in the basket, if the basket is 
+     * empty nothing is displayed.
+     *
+     */
     @Override
     public void showBasketSummary() {
         System.out.println(order.summary());
     }
 
+    /** This method is unused and is imported due to the implementation of the 
+     * summary panel.
+     *
+     * @param summary
+     */
+    @Override
+    public void summaryPanel(String summary) {
+    }
+
+    
+    /**This is the load method and it uses the removeAllItemsFromBasket before
+     * loading the basket, once the button is pressed the user has the option
+     * to select a file in which they would like to load, once the file has been
+     * loaded then the basket populates and the images are drawn to the GUI.
+     *
+     * @param file
+     */
     @Override
     public void loadBasket(File file) {
         this.removeAllItemsFromBasket();
         try {
-            try (FileInputStream in = new FileInputStream(file);
-                    ObjectInputStream obin = new ObjectInputStream(in)) {
-                order = (Orders) obin.readObject();
-                obin.close();
-                in.close();
+            
+            if (file.getName().contains(".dat")){
+                try (FileInputStream in = new FileInputStream(file);
+                        ObjectInputStream obin = new ObjectInputStream(in)) {
+                    order = (Orders) obin.readObject();
+                    obin.close();
+                    in.close();
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "This file cannot be loaded,");
+                
             }
 
         } catch (Exception e) {
@@ -179,13 +257,23 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
 
     }
 
+    
+    
+    /**This is the save basket method and the file will only save if it is saved
+     * as a ".dat" file, if the user tries to save without the exception, a 
+     * warning message will display and the basket will not be saved.
+     * 
+     *
+     * @param file
+     */
     @Override
     public void saveBasket(File file) {
 
         if (order.productsSize() == 0) {
-            JOptionPane.showMessageDialog(null, "The file cannot be saved, the basket is empty!");
+            JOptionPane.showMessageDialog(null, "The file cannot be saved,"
+                    + " the basket is empty!");
 
-        } else {
+        }else {
             if (file.getName().contains(".dat")) {
                 try {
 
@@ -194,21 +282,41 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
                     obout.writeObject(order);
                     obout.close();
                     out.close();
-                    JOptionPane.showMessageDialog(this, "Basket Saved", "Save", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Basket Saved", 
+                            "Save", JOptionPane.PLAIN_MESSAGE);
 
-                } catch (Exception e) {
+                }catch (Exception e) {
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "The file cannot be saved, please add the extension!");
+            }else {
+                JOptionPane.showMessageDialog(null, "The file cannot be saved, "
+                        + "please add the extension!");
 
             }
         }
     }
 
+    
+    
+    /**This method returns the basket value back to the totalPricePanel so that
+     * it can populate and display the price of the basket to the GUI.
+     *
+     * @return this.order.getTotalPrice()
+     */
     public double totalPriceOfBasket() {
         return this.order.getTotalPrice();
     }
 
+    
+    /**This method handles the left,right and middle mouse button clicks in the
+     * GUI.
+     * All button clicks are sat inside switch statements with the constant
+     * values of BUTTON1,BUTTON2,BUTTON3 which are imported through java
+     * libraries. For BUTTON1, it displays the summary. For BUTTON2, it edits the
+     * basket. And for BUTTON3 it removes the item from the basket.
+     *
+     * @param e
+     */
+    
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -252,7 +360,7 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
                 }
             } catch (Exception evt) {
                 JOptionPane.showMessageDialog(this, "This space is empty, "
-                        + "nothing to delete", "WARNING",
+                        + "nothing to edit", "WARNING",
                         JOptionPane.WARNING_MESSAGE);
 
             }
@@ -280,31 +388,46 @@ public class BasketPanel extends javax.swing.JPanel implements NewItemInterface,
         }
     }
 
+    /**This method is an unused override method which comes with mouseEvt
+     * 
+     */
+    
     @Override
     public void mousePressed(MouseEvent e) {
 
     }
 
+    /**This method is an unused override method which comes with mouseEvt
+     * 
+     */
+    
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
+    /**This method is an unused override method which comes with mouseEvt
+     * 
+     */
+    
+    
     @Override
     public void mouseEntered(MouseEvent e) {
     }
 
+    
+    /**This method is an unused override method which comes with mouseEvt
+     * 
+     */
+    
     @Override
     public void mouseExited(MouseEvent e) {
     }
 
-    @Override
-    public void summaryPanel(String summary) {
-    }
+    
+    
 
-    @Override
-    public void editSingleItem(Furniture furn) {
-        updateUI();
-    }
+
+
 
 }
