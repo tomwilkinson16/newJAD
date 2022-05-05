@@ -3,7 +3,8 @@ package Interfaces;
 
 import Items.Furniture;
 
-/**
+/**This interface edits each singular item and sets the maximum values of the
+ * basket to be 9 items but i can have multiple quantities of this item.
  *
  * @author tomwi
  */

@@ -8,7 +8,8 @@ public class SummaryPanel extends javax.swing.JPanel {
     
     
     /**
-     * Creates new form SummaryPanel
+     * Creates new form SummaryPanel, it currently is unused and is in place
+     * if I wanted to display the summary of the full order to the GUI.
      * @param summary
      */
     public SummaryPanel(String summary) {

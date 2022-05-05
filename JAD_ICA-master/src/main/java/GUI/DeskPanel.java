@@ -16,7 +16,9 @@ public class DeskPanel extends javax.swing.JPanel {
     private Desk desk;
 
     /**
-     * Creates new form DeskPanel
+     * Creates a new instance of a new desk through the newItemInterface;
+     * creating a new Desk, the init components are the visual options set 
+     * for the GUI.
      *
      * @param newItemInterface
      */
@@ -24,6 +26,14 @@ public class DeskPanel extends javax.swing.JPanel {
         initComponents();
         this.newItemInterface = newItemInterface;
     }
+
+    /**This creates a new panel for the desk which is an edit of the previously
+     * created desk; it implements the newItemInterface and creates a new instance,
+     * The titles are changed for this constructor.
+     *
+     * @param newItemInterface
+     * @param desk
+     */
     public DeskPanel(NewItemInterface newItemInterface, Desk desk) {
         this(newItemInterface);
         this.desk = desk;
@@ -161,6 +171,15 @@ public class DeskPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+    
+    /**This method is in place for when the user presses on the addToBasket button.
+     * 
+     * This method checks to see if the desk is a new desk or an edit, and
+     * updates the details of the desk depending on if any data has changed.
+     *
+     */
     private void addToBasketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToBasketButtonActionPerformed
 
         int drawers = 1;
@@ -213,7 +232,7 @@ public class DeskPanel extends javax.swing.JPanel {
                     JOptionPane.WARNING_MESSAGE);
                 MainFrame.getInstance().clearInteractionPanel();
             }
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "This is an invalid character",
                     "WARNING",
                     JOptionPane.WARNING_MESSAGE);

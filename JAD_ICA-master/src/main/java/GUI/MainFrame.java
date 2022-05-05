@@ -6,7 +6,11 @@ import Interfaces.SummaryInterface;
 import Items.Chair;
 import Items.Desk;
 import Items.Table;
-/**
+
+
+/**This class is the main class in the project and it checks for changes to the
+ * observer pattern and updates the GUI depending on the situation, this can
+ * only happen with interfaces.
  *
  * @author tomwi
  */
@@ -15,13 +19,20 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface,
     
     private static MainFrame instance;
     /**
-     * Creates new form RoflFrame
+     * This method checks for any GUI updates and listens for any updates to the
+     * button panel. 
      */
     private MainFrame() {
         initComponents();
         initListeners();
     }
 
+    /**This method is a singleton and is used to create an instance of the main
+     * frame depending on if their is a new item created or if there is an edit
+     * to an item.
+     *
+     * @return instance
+     */
     public static MainFrame getInstance(){
         if (instance ==null){
             return instance = new MainFrame();
@@ -80,7 +91,10 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface,
         basketPanel.addSummaryListener(this);
         buttonPanel1.setSerializeListener(this.basketPanel);
     }
-    /**
+    
+    
+    /** This is the main method and edits the instance with the invoke later
+     * method. We check to see which instance is being used.
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -121,6 +135,11 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface,
     private GUI.TitlePanel titlePanel1;
     // End of variables declaration//GEN-END:variables
 
+    /** This checks to see if there is a new chair panel being created, once a 
+     * chair has been pressed it resets the state back to it's original form and
+     * draws a new instance of adding a new chair.
+     *
+     */
     @Override
     public void newChairPanel() {
         interactionPanel.removeAll();         
@@ -128,6 +147,12 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface,
         interactionPanel.updateUI();
         
     }
+
+    /**This method takes in the parameter of a chair and if the edit has been 
+     * pressed, it resets the frame to the original state of an edit.
+     *
+     * @param chair
+     */
     @Override
     public void editChairPanel(Chair chair) {
         interactionPanel.removeAll();         
@@ -135,6 +160,11 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface,
         interactionPanel.updateUI();      
     }
     
+    /** This checks to see if there is a new desk panel being created, once a 
+     * desk has been pressed it resets the state back to it's original form and
+     * draws a new instance of adding a new desk.
+     *
+     */
     @Override
     public void newDeskPanel() {
         interactionPanel.removeAll();         
@@ -143,6 +173,11 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface,
         
     }
     
+    /**This method takes in the parameter of a desk and if the edit has been 
+     * pressed, it resets the frame to the original state of an edit.
+     *
+     * @param desk
+     */
     @Override
     public void editDeskPanel(Desk desk) {
         interactionPanel.removeAll();         
@@ -150,6 +185,11 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface,
         interactionPanel.updateUI();
     }
     
+    /** This checks to see if there is a new table panel being created, once a 
+     * table has been pressed it resets the state back to it's original form and
+     * draws a new instance of adding a new table.
+     *
+     */
     @Override
     public void newTablePanel() {
         interactionPanel.removeAll();         
@@ -157,6 +197,11 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface,
         interactionPanel.updateUI();
     }
     
+    /**This method takes in the parameter of a table and if the edit has been 
+     * pressed, it resets the frame to the original state of an edit.
+     *
+     * @param table
+     */
     @Override
     public void editTablePanel(Table table) {
         interactionPanel.removeAll();         
@@ -164,6 +209,11 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface,
         interactionPanel.updateUI();
     }
     
+    /**This panel is not in place correctly but the fundamentals are, the display
+     * does not update but the summary prints to the console.
+     *
+     * @param summary
+     */
     @Override
     public void summaryPanel(String summary){
         interactionPanel.removeAll();
@@ -171,7 +221,11 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface,
         interactionPanel.updateUI();
     }
 
-
+    /**This method first checks to see if the basket is clear before removing
+     * items from the basket then updates the GUI with the new basketPanel
+     * every time an item is added.
+     *
+     */
     @Override
     public void removeAllItemsFromBasket() {
         basketPanel.removeAll();
@@ -179,6 +233,10 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface,
         basketPanel.updateUI();
     }
 
+    /**This method displays the total price panel on the interaction panel, it 
+     * gets the value, adds the panel and displays the data on the GUI.
+     *
+     */
     @Override
     public void totalPricePanel() {
         interactionPanel.removeAll();
@@ -188,11 +246,18 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface,
         interactionPanel.updateUI();
     }
     
+    /**This is an unused method and can be implemented to display the summary on
+     * the GUI.
+     *
+     */
     @Override
     public void showBasketSummary() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    /**This method is used in the updating of an item through interfaces, 
+     * once an item is removed the GUI updates and shows the updated result.
+     *
+     */
     @Override
     public void removeSingleItem() {
         basketPanel.removeAll();
@@ -200,6 +265,10 @@ public class MainFrame extends javax.swing.JFrame implements ItemInterface,
         basketPanel.updateUI();
     }
     
+    /**This method clears the interactionPanel and is used to remove everything
+     * so it is clear, it then updates.
+     *
+     */
     public void clearInteractionPanel(){
         interactionPanel.removeAll();
         interactionPanel.updateUI();

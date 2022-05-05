@@ -7,7 +7,7 @@ package GUI;
 public class TotalPricePanel extends javax.swing.JPanel {
 
     /**
-     * Creates new form TotalPricePanel
+     * Creates new form TotalPricePanel and displays it to the GUI.
      */
     public TotalPricePanel() {
         initComponents();
