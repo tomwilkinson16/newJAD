@@ -1,6 +1,6 @@
 package Items;
 
-/**
+/**This is an ENUM and it sets the woodType for every item and sets the price.
  *
  * @author tomwi
  */

@@ -3,7 +3,8 @@ package Items;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
-/**
+/**This main method is test harness in place to ensure my data worked before
+ * implementing it to the GUI.
  *
  * @author tomwi
  */
@@ -105,8 +106,7 @@ public class Main {
 
                     break;
                 case(0):
-                    Furniture f = order.getItem(0);
-                    //order.removeItem();
+                    System.exit(0);
                     break;
                 default:
                     break;
